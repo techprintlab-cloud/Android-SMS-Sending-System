@@ -1,0 +1,12 @@
+{
+  "success": true,
+  "logs": [
+    {
+      "timestamp": "2026-01-28 23:20:15",
+      "phone": "905551234567",
+      "message": "Test mesajı - SMS gönderme sistemi çalışıyor",
+      "status": "sent",
+      "response": "SMS Operatöre İletildi"
+    }
+  ]
+}

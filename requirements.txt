@@ -1,0 +1,15 @@
+# Python dependencies for Android SMS Server
+# This system only requires standard Python libraries
+# No additional packages needed beyond Python 3.6+
+
+# The system uses only built-in Python modules:
+# - json
+# - socket
+# - time
+# - os
+# - sys
+# - subprocess
+# - shutil
+# - http.server
+
+python>=3.6

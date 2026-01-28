@@ -1,0 +1,9 @@
+{
+  "phone_numbers": [
+    "905551234567",
+    "905551234568",
+    "905551234569"
+  ],
+  "message": "Toplu SMS test mesajı",
+  "delay_seconds": 2
+}

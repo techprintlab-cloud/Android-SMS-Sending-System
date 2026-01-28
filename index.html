@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Sending System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .api-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SMS Sending System</h1>
+        
+        <div class="form-group">
+            <label for="phone_number">Phone Number:</label>
+            <input type="text" id="phone_number" placeholder="Enter phone number (e.g., 905551234567)">
+        </div>
+        
+        <div class="form-group">
+            <label for="message">Message:</label>
+            <textarea id="message" rows="4" placeholder="Enter your message"></textarea>
+        </div>
+        
+        <button onclick="sendSMS()">Send SMS</button>
+        
+        <div id="result" class="result"></div>
+        
+        <div class="api-section">
+            <h2>API Endpoints</h2>
+            <p><strong>POST /api/send_sms</strong> - Send single SMS</p>
+            <p><strong>POST /api/send_bulk_sms</strong> - Send bulk SMS</p>
+            <p><strong>GET /api/status</strong> - Get system status</p>
+            <p><strong>GET /api/logs</strong> - Get SMS logs</p>
+            
+            <h3>Example Request Body (send_sms)</h3>
+            <pre>{
+  "phone_number": "905551234567",
+  "message": "Test message"
+}</pre>
+            
+            <h3>Example Request Body (send_bulk_sms)</h3>
+            <pre>{
+  "phone_numbers": [
+    "905551234567",
+    "905551234568"
+  ],
+  "message": "Bulk test message",
+  "delay_seconds": 2
+}</pre>
+        </div>
+    </div>
+
+    <script>
+        function sendSMS() {
+            const phoneNumber = document.getElementById('phone_number').value;
+            const message = document.getElementById('message').value;
+            const resultDiv = document.getElementById('result');
+            
+            if (!phoneNumber || !message) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = 'Please fill in all fields';
+                resultDiv.style.display = 'block';
+                return;
+            }
+            
+            const data = {
+                phone_number: phoneNumber,
+                message: message
+            };
+            
+            fetch('/api/send_sms', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                resultDiv.className = 'result success';
+                resultDiv.textContent = 'SMS sent successfully! Response: ' + JSON.stringify(data);
+                resultDiv.style.display = 'block';
+            })
+            .catch(error => {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = 'Error sending SMS: ' + error.message;
+                resultDiv.style.display = 'block';
+            });
+        }
+    </script>
+</body>
+</html>
